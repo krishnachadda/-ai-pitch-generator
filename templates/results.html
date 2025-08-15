@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Pitch // Nexus Output</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Our Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="aurora-background"></div>
+    <div class="container">
+        <header>
+            <div class="theme-switcher">
+                <button id="theme-toggle-btn">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            <h1>Generation Complete ✨</h1>
+            <p class="subtitle">Pitch analysis output:</p>
+        </header>
+
+        <main>
+            {% if pitch_data.error %}
+                <div class="card error animate-in">
+                    <div class="card-header">
+                        <h2><i class="fas fa-exclamation-triangle"></i> System Error</h2>
+                    </div>
+                    <p>{{ pitch_data.error }}</p>
+                </div>
+            {% else %}
+                <div class="card animate-in" style="animation-delay: 0.1s;">
+                    <div class="card-header">
+                        <h2><i class="fas fa-bullhorn"></i> Tagline</h2>
+                        <button class="copy-btn" data-target="tagline-content"><i class="far fa-copy"></i> Copy</button>
+                    </div>
+                    <p id="tagline-content">{{ pitch_data.tagline }}</p>
+                </div>
+                <!-- ... other cards ... -->
+                 <div class="card animate-in" style="animation-delay: 0.2s;">
+                    <div class="card-header">
+                        <h2><i class="fas fa-gem"></i> Value Proposition</h2>
+                        <button class="copy-btn" data-target="value-prop-content"><i class="far fa-copy"></i> Copy</button>
+                    </div>
+                    <p id="value-prop-content">{{ pitch_data.value_prop }}</p>
+                </div>
+
+                <div class="card animate-in" style="animation-delay: 0.3s;">
+                    <div class="card-header">
+                        <h2><i class="fas fa-stopwatch"></i> Elevator Pitch</h2>
+                        <button class="copy-btn" data-target="elevator-pitch-content"><i class="far fa-copy"></i> Copy</button>
+                    </div>
+                    <p id="elevator-pitch-content">{{ pitch_data.elevator_pitch }}</p>
+                </div>
+
+                <div class="card animate-in" style="animation-delay: 0.4s;">
+                    <div class="card-header">
+                        <h2><i class="fas fa-list-check"></i> Slide Bullets</h2>
+                        <button class="copy-btn" data-target="slide-bullets-content"><i class="far fa-copy"></i> Copy</button>
+                    </div>
+                    <p id="slide-bullets-content">{{ pitch_data.slide_bullets }}</p>
+                </div>
+
+                <div class="card animate-in" style="animation-delay: 0.5s;">
+                    <div class="card-header">
+                        <h2><i class="fas fa-users"></i> Potential Competitors</h2>
+                        <button class="copy-btn" data-target="competitors-content"><i class="far fa-copy"></i> Copy</button>
+                    </div>
+                    <p id="competitors-content">{{ pitch_data.competitors }}</p>
+                </div>
+
+                <div class="card animate-in" style="animation-delay: 0.6s;">
+                    <div class="card-header">
+                        <h2><i class="fas fa-dollar-sign"></i> Possible Revenue Models</h2>
+                        <button class="copy-btn" data-target="revenue-models-content"><i class="far fa-copy"></i> Copy</button>
+                    </div>
+                    <p id="revenue-models-content">{{ pitch_data.revenue_models }}</p>
+                </div>
+            {% endif %}
+
+            <a href="/" class="back-button animate-in" style="animation-delay: 0.7s;"><i class="fas fa-arrow-left"></i> New Generation</a>
+        </main>
+    </div>
+
+    <script>
+        // --- Copy to Clipboard Script ---
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        copyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('data-target');
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    navigator.clipboard.writeText(targetElement.innerText.trim());
+                    const originalContent = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-check"></i> COPIED';
+                    button.classList.add('copied');
+                    setTimeout(() => {
+                        button.innerHTML = originalContent;
+                        button.classList.remove('copied');
+                    }, 2000);
+                }
+            });
+        });
+        
+        // --- Theme Toggle Script ---
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const body = document.body;
+        const applyTheme = (theme) => {
+            body.classList.remove('light-theme', 'dark-theme');
+            body.classList.add(theme);
+            localStorage.setItem('theme', theme);
+        };
+        themeToggleBtn.addEventListener('click', () => {
+            const newTheme = body.classList.contains('dark-theme') ? 'light-theme' : 'dark-theme';
+            applyTheme(newTheme);
+        });
+        const savedTheme = localStorage.getItem('theme') || 'dark-theme';
+        applyTheme(savedTheme);
+    </script>
+</body>
+</html>

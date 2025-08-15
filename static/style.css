@@ -1,0 +1,191 @@
+/* --- UNIVERSAL & ANIMATIONS --- */
+@keyframes aurora {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes futuristic-loader {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+:root {
+    font-family: 'Inter', sans-serif;
+    --transition-speed: 0.3s;
+}
+
+/* --- THEME VARIABLES --- */
+/* Light Theme (Default Fallback) */
+body.light-theme {
+    --bg-color: #f0f2f5;
+    --text-primary: #1c1e21;
+    --text-secondary: #606770;
+    --accent-gradient: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+    --accent-hover: linear-gradient(90deg, #590db0 0%, #1e62d4 100%);
+    --glass-bg: rgba(255, 255, 255, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --card-bg: rgba(255, 255, 255, 0.3);
+    --card-border: rgba(200, 200, 200, 0.5);
+    --input-bg: #fff;
+    --input-border: #ccd0d5;
+    --glow-color: rgba(37, 117, 252, 0.5);
+    --theme-btn-bg: #e4e6eb;
+}
+
+/* Dark Theme */
+body.dark-theme {
+    --bg-color: #0d0c1d;
+    --text-primary: #e4e6eb;
+    --text-secondary: #b0b3b8;
+    --accent-gradient: linear-gradient(90deg, #f86cf8 0%, #6493f1 100%);
+    --accent-hover: linear-gradient(90deg, #e05be0 0%, #507fdc 100%);
+    --glass-bg: rgba(23, 22, 42, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --card-bg: rgba(38, 36, 68, 0.3);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --input-bg: #1e1d32;
+    --input-border: #3a3b3c;
+    --glow-color: rgba(100, 147, 241, 0.4);
+    --theme-btn-bg: #3a3b3c;
+}
+
+/* --- BASE & BACKGROUND --- */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 20px;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+    overflow-x: hidden;
+}
+
+.aurora-background {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(125deg, #0d0c1d, #6a11cb, #2575fc, #f86cf8);
+    background-size: 400% 400%;
+    animation: aurora 15s ease infinite;
+    z-index: -1;
+    filter: blur(80px);
+}
+
+/* --- LAYOUT & TYPOGRAPHY --- */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px 40px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position: relative;
+    z-index: 1;
+}
+
+header { text-align: center; margin-bottom: 30px; position: relative; }
+h1 { font-size: 2.5em; font-weight: 800; letter-spacing: -1px; margin-bottom: 0.2em; }
+h1 strong {
+    background: var(--accent-gradient);
+    /* --- FIX START --- */
+    -webkit-background-clip: text; /* For WebKit browsers */
+    background-clip: text;         /* Standard property */
+    color: transparent;            /* Fallback for non-supporting browsers */
+    /* --- FIX END --- */
+    -webkit-text-fill-color: transparent; /* Makes the text transparent to show the gradient */
+}
+.subtitle { font-size: 1.1em; color: var(--text-secondary); }
+
+/* --- THEME SWITCHER --- */
+.theme-switcher { position: absolute; top: 0; right: 0; }
+#theme-toggle-btn {
+    background: var(--theme-btn-bg); color: var(--text-primary);
+    border: none; border-radius: 50%;
+    width: 40px; height: 40px;
+    cursor: pointer; transition: all var(--transition-speed) ease;
+    font-size: 18px;
+}
+#theme-toggle-btn:hover { transform: scale(1.1) rotate(15deg); }
+.dark-theme .fa-sun { display: none; }
+.light-theme .fa-moon { display: none; }
+
+
+/* --- FORMS & BUTTONS --- */
+textarea {
+    width: 100%; padding: 15px; font-size: 16px; font-family: inherit;
+    background: var(--input-bg); color: var(--text-primary);
+    border: 1px solid var(--input-border); border-radius: 8px;
+    box-sizing: border-box; resize: vertical; margin-bottom: 20px;
+    transition: all var(--transition-speed) ease;
+}
+textarea:focus {
+    outline: none; border-color: var(--glass-border);
+    box-shadow: 0 0 0 4px var(--glow-color);
+}
+button, .back-button {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 100%; padding: 15px; font-size: 16px; font-weight: 600;
+    color: #fff; background: var(--accent-gradient);
+    border: none; border-radius: 8px; cursor: pointer;
+    text-align: center; text-decoration: none;
+    transition: all var(--transition-speed) ease;
+    background-size: 200% auto; text-transform: uppercase; letter-spacing: 1px;
+}
+button:hover:not(:disabled), .back-button:hover {
+    background-position: right center; transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+button:disabled { background: var(--text-secondary); cursor: not-allowed; }
+
+/* --- RESULTS CARDS --- */
+.card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 12px; padding: 25px; margin-bottom: 25px;
+    backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+}
+.card-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 15px; padding-bottom: 10px;
+    border-bottom: 1px solid var(--card-border);
+}
+.card h2 {
+    margin: 0; font-size: 1.4em;
+    background: var(--accent-gradient);
+    /* --- FIX START --- */
+    -webkit-background-clip: text; /* For WebKit browsers */
+    background-clip: text;         /* Standard property */
+    color: transparent;            /* Fallback for non-supporting browsers */
+    /* --- FIX END --- */
+    -webkit-text-fill-color: transparent; /* Makes the text transparent to show the gradient */
+}
+.card h2 i { margin-right: 12px; -webkit-text-fill-color: var(--text-secondary); } /* Reset icon color */
+.card p { text-align: left; white-space: pre-wrap; color: var(--text-secondary); line-height: 1.7; }
+.animate-in { animation: fadeInUp 0.5s ease-out forwards; opacity: 0; }
+
+/* Copy Button */
+.copy-btn {
+    background: rgba(128, 128, 128, 0.2); color: var(--text-secondary);
+    border: 1px solid transparent; border-radius: 6px;
+    padding: 6px 12px; font-size: 13px; font-weight: 600; cursor: pointer;
+    transition: all var(--transition-speed) ease; width: auto;
+}
+.copy-btn:hover { background: rgba(128, 128, 128, 0.4); color: var(--text-primary); }
+.copy-btn.copied { border-color: #2ecc71; color: #2ecc71; }
+
+/* --- FUTURISTIC LOADER --- */
+.loader {
+    width: 20px; height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: futuristic-loader 0.8s linear infinite;
+    margin-left: 12px;
+}

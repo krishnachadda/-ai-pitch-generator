@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Pitch Generator</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Our Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="aurora-background"></div>
+    <div class="container">
+        <header>
+            <div class="theme-switcher">
+                <button id="theme-toggle-btn">
+                    <i class="fas fa-sun"></i> <!-- Sun icon for light mode -->
+                    <i class="fas fa-moon"></i> <!-- Moon icon for dark mode -->
+                </button>
+            </div>
+            <h1>AI Pitch Generator <strong>// Nexus</strong></h1>
+            <p class="subtitle">Synthesize your core concept into a high-impact business pitch.</p>
+        </header>
+        
+        <main>
+            <form id="pitch-form" action="/generate" method="post">
+                <textarea name="idea" rows="7" placeholder="Input idea parameters...&#10;> Mobile app for local gardeners to trade seeds and produce.&#10;> Geolocation API for user proximity matching.&#10;> Gamified rating system & plant care knowledge base." required></textarea>
+                <button id="generate-btn" type="submit">
+                    <span class="btn-text">INITIALIZE GENERATION</span>
+                    <span class="loader" style="display: none;"></span>
+                </button>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        // --- Form Loader Script ---
+        const form = document.getElementById('pitch-form');
+        const button = document.getElementById('generate-btn');
+        const btnText = button.querySelector('.btn-text');
+        const loader = button.querySelector('.loader');
+
+        form.addEventListener('submit', function() {
+            button.disabled = true;
+            btnText.textContent = 'PROCESSING...';
+            loader.style.display = 'inline-block';
+        });
+
+        // --- Theme Toggle Script ---
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const body = document.body;
+
+        const applyTheme = (theme) => {
+            body.classList.remove('light-theme', 'dark-theme');
+            body.classList.add(theme);
+            localStorage.setItem('theme', theme);
+        };
+
+        themeToggleBtn.addEventListener('click', () => {
+            const newTheme = body.classList.contains('dark-theme') ? 'light-theme' : 'dark-theme';
+            applyTheme(newTheme);
+        });
+
+        // Apply saved theme on page load
+        const savedTheme = localStorage.getItem('theme') || 'dark-theme'; // Default to dark
+        applyTheme(savedTheme);
+    </script>
+</body>
+</html>
